@@ -26,6 +26,7 @@ public class Brush : MonoBehaviour
     {
         //La speed de movimiento de los sprites la coge del playerController
         speed = playerGameObject.GetComponent<PlayerController>().CurrentSpeed;
+
         //Si el modo automatico esta puesto el tiempo de creacion de la brocha dependera de la velocidad a la que se vaya
         if (automaticTimeBetweenInstances) { timeBetweenInstances = 1 / (speed*automaticBrushDensity); }
         timeSinceLastInstance += Time.deltaTime;
