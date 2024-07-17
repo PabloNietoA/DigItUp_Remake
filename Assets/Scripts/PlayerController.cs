@@ -7,21 +7,21 @@ public class PlayerController : MonoBehaviour
 {
     //VARIABLES
     [Header("Speed")]
-    [SerializeField] float baseSpeed;
-    [SerializeField] float currentSpeed;
-    [SerializeField] float maxSpeed;
+    [SerializeField] private float baseSpeed;
+    [SerializeField] private float currentSpeed;
+    [SerializeField] private float maxSpeed;
     [Header("Rotation")]
-    [SerializeField] float maxAngle;
-    [SerializeField] float rotationSmoothness;
+    [SerializeField] private float maxAngle;
+    [SerializeField] private float rotationSmoothness;
     [Header("Fuel")]
-    [SerializeField] float baseFuel;
-    [SerializeField] float currentFuel;
-    [SerializeField] float maxFuel;
+    [SerializeField] private float baseFuel;
+    [SerializeField] private float currentFuel;
+    [SerializeField] private float maxFuel;
     [Header("Capacity")]
-    [SerializeField] int baseCapacity;
-    [SerializeField] int currentCapacity;
-    [SerializeField] int maxCapacity;
-    [SerializeField] int currentLoad;
+    [SerializeField] private int baseCapacity;
+    [SerializeField] private float currentCapacity;
+    [SerializeField] private float maxCapacity;
+    [SerializeField] private float currentLoad;
  
 
     // Update is called once per frame
@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
         Quaternion angle = Quaternion.Euler(0, 0, h);
         transform.rotation = Quaternion.Slerp(transform.rotation, angle, Time.deltaTime * rotationSmoothness);
     }
-
     
+    //Getters y setters
+    public float CurrentSpeed { get { return currentSpeed; } set { currentSpeed = value; } }
 }
