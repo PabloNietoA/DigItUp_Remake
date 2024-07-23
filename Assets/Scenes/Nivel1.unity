@@ -410,6 +410,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1629119166}
   - component: {fileID: 1629119165}
+  - component: {fileID: 1629119167}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -444,6 +445,34 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1629119167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1629119164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 092a1481948aab74490f03059a831a80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Ores>k__BackingField: []
+  <MineralProbs>k__BackingField:
+  - 0.6
+  - 0.3
+  - 0.1
+  - 0
+  <CheckpointProbs>k__BackingField:
+  - 0.6
+  - 0.3
+  - 0.1
+  - 0
+  <DepthPerShift>k__BackingField: 100
+  <MaxWait>k__BackingField: 2000
+  <MinWait>k__BackingField: 200
+  <SpreadX>k__BackingField: 0
+  <SpreadY>k__BackingField: 0
 --- !u!1 &2139182707
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,13 +6,15 @@ using UnityEngine;
 
 public class Minerals : MonoBehaviour
 {
-    [SerializeField] private GameObject[] Ores; // Array containing all types of Ores, the object
-    [SerializeField] private float[] MineralProb; // Probabilidades de cada mineral (inicializo en start o desde unity?)
-    [SerializeField] private float[] CheckpointProb; // Probablidades que tienen al empezar la capa actual 
-    [SerializeField] private int DepthPerShift; // Determina cada cuanta profundidad cambia el mineral predominante
-    [SerializeField] private (int min, int max) GenerationPeriod; // Tiempo en ms entre generación de minerales
-    [SerializeField] private (float X, float Y) Spread; // Ambas en tupla pq pq no
-    
+    [field: SerializeField] public GameObject[] Ores { get; set;}
+    [field: SerializeField] public float[] MineralProbs { get; set;}
+    [field: SerializeField] public float[] CheckpointProbs { get; set;}
+    [field: SerializeField] public int DepthPerShift { get; set;}
+    [field: SerializeField] public int MaxWait{ get; set;}
+    [field: SerializeField] public int MinWait{ get; set;}
+    [field: SerializeField] public float SpreadX { get; set;}
+    [field: SerializeField] public float SpreadY { get; set;}
+
 
     void Start(){
         // Valores de prueba, maybe setearlos desde el editor de unity
@@ -31,10 +33,16 @@ public class Minerals : MonoBehaviour
         while (true)
         {
             AdjustProbs(Manager.Deepness);
-            GenerateOre(WhichOre());
+            // GenerateOre(WhichOre());
 
-            int waitTime = (int) GenerationPeriod.max - (Manager.Deepness) / 10;
-            Thread.Sleep(Math.Min(waitTime, GenerationPeriod.min) );
+            // Print probabilidades cada vez que se cambian
+            // for(int i = 0; i < MineralProbs.Length; i++)
+            // {
+            //     Console.Write(MineralProbs[i]);
+            // }
+
+            int waitTime = MaxWait - ( (int) Manager.Deepness) / 10;
+            Thread.Sleep(Math.Min(waitTime, MinWait) );
         }
     }
 
@@ -45,21 +53,21 @@ public class Minerals : MonoBehaviour
         // Randomly select a mineral based on adjusted probabilities
         float randomValue = UnityEngine.Random.value;
         float cumulativeProbability = 0.0f;
-        for (int i = 0; i < MineralProb.Length; i++)
+        for (int i = 0; i < MineralProbs.Length; i++)
         {
-            cumulativeProbability += MineralProb[i];
+            cumulativeProbability += MineralProbs[i];
             if (randomValue <= cumulativeProbability)
             {
                 return Ores[i];
             }
         }
-        return Ores[MineralProb.Length - 1]; // Default to last mineral
+        return Ores[MineralProbs.Length - 1]; // Default to last mineral
     }
 
     /** Ajusta probabilidades de aparición de los minerales cada vez que generamos uno
     */
     void AdjustProbs(float depthLevel){
-        int numMinerals = MineralProb.Length;
+        int numMinerals = MineralProbs.Length;
         int lastMineral = numMinerals - 1;
         
         // Capa en la que nos encontramos, corresponde a un mineral
@@ -72,20 +80,21 @@ public class Minerals : MonoBehaviour
         // Si queréis utilizarlo para otra cosa, se declara arriba y se calcula así
         float posInLayer = (depthLevel - begDepth) / (endDepth - begDepth);
         
-        float lastValue = MineralProb[layer];
-        MineralProb[layer] = CheckpointProb[layer] - (CheckpointProb[layer] * posInLayer) / 2 ;
-        TraspassProbability(layer, MineralProb[layer] - lastValue); // Se traspasa el cambio de prob
+        float lastValue = MineralProbs[layer];
+        MineralProbs[layer] = CheckpointProbs[layer] - (CheckpointProbs[layer] * posInLayer) / 2 ;
+        TraspassProbability(layer, MineralProbs[layer] - lastValue); // Se traspasa el cambio de prob
 
         // Se inicializa el siguiente mineral que no ha aparecido todavía para que la función traspase 
         // probabilidad correctamente
-        if(layer + 2 < numMinerals){
-            MineralProb[layer + 2] = 0.1f;
-            MineralProb[layer - 1] -= 0.1f;
+        if(layer + 2 < lastMineral && layer > 0){
+            MineralProbs[layer + 2] = 0.1f;
+            MineralProbs[layer - 1] -= 0.1f;
         }
 
-        TraspassProbability(layer - 1, MineralProb[layer - 1]);
-        MineralProb[layer - 1] = 0;
-
+        if(layer > 0){
+            TraspassProbability(layer - 1, MineralProbs[layer - 1]);
+            MineralProbs[layer - 1] = 0;
+        }
     }
 
     /** Esta función coge la probabilidad del mineral del indice aportado 
@@ -93,30 +102,29 @@ public class Minerals : MonoBehaviour
         tienen acutalmente. 
     */
     void TraspassProbability(int index, float prob){
-        if (index + 1 >= MineralProb.Length)
+        if (index + 1 >= MineralProbs.Length)
             return;
             
-        float nextProb = MineralProb[index + 1];
-        if (index + 2 >= MineralProb.Length)
+        float nextProb = MineralProbs[index + 1];
+        if (index + 2 >= MineralProbs.Length)
         {
-            MineralProb[index + 1] += prob;
+            MineralProbs[index + 1] += prob;
             return;
         }
 
-        float nextNextProb = MineralProb[index + 2];
+        float nextNextProb = MineralProbs[index + 2];
         float totalNextProb = nextProb + nextNextProb;
 
-        MineralProb[index + 1] += nextProb * prob / totalNextProb;
-        MineralProb[index + 2] += nextNextProb * prob / totalNextProb;
+        MineralProbs[index + 1] += nextProb * prob / totalNextProb;
+        MineralProbs[index + 2] += nextNextProb * prob / totalNextProb;
     }
     
-    void GenerateOre(GameObject ore)
-    {
-        // Generar posición aleatoria dentro de una esfera alrededor del punto de transformación
-        Vector3 randomPosition = UnityEngine.Random.insideUnitSphere * Spread;  //+ transform.position
+    // void GenerateOre(GameObject ore)
+    // {
+    //     // Generar posición aleatoria dentro de una esfera alrededor del punto de transformación
+    //     Vector3 randomPosition = Vector3.Scale(UnityEngine.Random.insideUnitSphere, new Vector3(SpreadX, SpreadY, 10f));
 
-        // Crear y destruir el clon de mineral
-        GameObject clone = Instantiate(ore, randomPosition, Quaternion.identity);
-        Destroy(clone, 30f / (GetComponentInParent<Player>().Speed / 10f));
-    }
+    //     // Crear y destruir el clon de mineral
+    //     GameObject clone = Instantiate(ore, randomPosition, Quaternion.identity);
+    // }
 }
