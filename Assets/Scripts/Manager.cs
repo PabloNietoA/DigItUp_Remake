@@ -5,5 +5,5 @@ using UnityEngine;
 public class Manager : MonoBehaviour
 {
     [Header("Deepness")]
-    public static float deepness; //Static para acceso desde 
+    public static float Deepness; //Static para acceso Desde 
 }
