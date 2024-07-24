@@ -6,4 +6,5 @@ public class Manager : MonoBehaviour
 {
     [Header("Deepness")]
     public static float Deepness; //Static para acceso Desde 
+    public GameObject 
 }

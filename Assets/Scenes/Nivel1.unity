@@ -239,7 +239,7 @@ MonoBehaviour:
   currentSpeed: 10
   maxSpeed: 0
   maxAngle: 60
-  turnSpeed: 10
+  turnSpeed: 3
   baseFuel: 0
   currentFuel: 0
   maxFuel: 0
@@ -313,7 +313,7 @@ MonoBehaviour:
   destructionHeight: 12
   timeBetweenInstances: 1
   automaticTimeBetweenInstances: 1
-  automaticBrushDensity: 2
+  automaticBrushDensity: 2.1
   speed: 10
   playerGameObject: {fileID: 267041904}
 --- !u!1 &1543432411
@@ -452,7 +452,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1629119164}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 092a1481948aab74490f03059a831a80, type: 3}
   m_Name: 
