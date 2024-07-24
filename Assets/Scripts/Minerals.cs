@@ -36,13 +36,13 @@ public class Minerals : MonoBehaviour
             // GenerateOre(WhichOre());
 
             // Print probabilidades cada vez que se cambian
-            // for(int i = 0; i < MineralProbs.Length; i++)
-            // {
-            //     Console.Write(MineralProbs[i]);
-            // }
+            for(int i = 0; i < MineralProbs.Length; i++)
+            {
+                Console.Write(MineralProbs[i]);
+            }
 
             int waitTime = MaxWait - ( (int) Manager.Deepness) / 10;
-            Thread.Sleep(Math.Min(waitTime, MinWait) );
+            yield return new WaitForSeconds(Math.Min(waitTime, MinWait));
         }
     }
 
