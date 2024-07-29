@@ -17,10 +17,6 @@ public class Minerals : MonoBehaviour
 
 
     void Start(){
-        // Valores de prueba, maybe setearlos desde el editor de unity
-        // MineralProb = [0.6, 0.3, 0.1, 0]; 
-        // GenerationPeriod = (200, 5000);
-
         // Bucle de generación de minerales
         StartCoroutine(GenerationLoop());
     }
@@ -36,12 +32,13 @@ public class Minerals : MonoBehaviour
             // GenerateOre(WhichOre());
 
             // Print probabilidades cada vez que se cambian
-            for(int i = 0; i < MineralProbs.Length; i++)
-            {
-                Console.Write(MineralProbs[i]);
-            }
+            // for(int i = 0; i < MineralProbs.Length; i++)
+            // {
+            //     Console.Write(MineralProbs[i]);
+            // }
 
             int waitTime = MaxWait - ( (int) Manager.Deepness) / 10;
+
             yield return new WaitForSeconds(Math.Min(waitTime, MinWait));
         }
     }
