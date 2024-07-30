@@ -6,14 +6,15 @@ using UnityEngine;
 
 public class Minerals : MonoBehaviour
 {
-    [field: SerializeField] public GameObject[] Ores { get; set;}
-    [field: SerializeField] public float[] MineralProbs { get; set;}
-    [field: SerializeField] public float[] CheckpointProbs { get; set;}
-    [field: SerializeField] public int DepthPerShift { get; set;}
-    [field: SerializeField] public int MaxWait{ get; set;}
-    [field: SerializeField] public int MinWait{ get; set;}
-    [field: SerializeField] public float SpreadX { get; set;}
-    [field: SerializeField] public float SpreadY { get; set;}
+    public static Minerals instance;
+    [field: SerializeField] GameObject[] Ores { get; set;}
+    [field: SerializeField] float[] MineralProbs { get; set;}
+    [field: SerializeField] float[] CheckpointProbs { get; set;}
+    [field: SerializeField] int DepthPerShift { get; set;}
+    [field: SerializeField] int MaxWait{ get; set;}
+    [field: SerializeField] int MinWait{ get; set;}
+    [field: SerializeField] float SpreadX { get; set;}
+    [field: SerializeField] float SpreadY { get; set;}
 
 
     void Start(){
@@ -28,7 +29,7 @@ public class Minerals : MonoBehaviour
     IEnumerator GenerationLoop(){
         while (true)
         {
-            AdjustProbs(Manager.Deepness);
+            AdjustProbs(Manager.instance.Deepness);
             // GenerateOre(WhichOre());
 
             // Print probabilidades cada vez que se cambian
@@ -37,7 +38,7 @@ public class Minerals : MonoBehaviour
             //     Console.Write(MineralProbs[i]);
             // }
 
-            int waitTime = MaxWait - ( (int) Manager.Deepness) / 10;
+            int waitTime = MaxWait - ( (int) Manager.instance.Deepness) / 10;
 
             yield return new WaitForSeconds(Math.Min(waitTime, MinWait));
         }
