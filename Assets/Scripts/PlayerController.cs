@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController instance;
     //VARIABLES
     [Header("Speed")]
     [SerializeField] private float baseSpeed;
@@ -29,6 +30,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float currentCapacity;
     [SerializeField] private float maxCapacity;
     [SerializeField] private float currentLoad;
+
+    void Start(){
+        // Almacena el primer script creado, que se puede acceder estáticamente
+        // Así tenemos una sola variable estática de la que consultamos variables
+        if(instance != null && instance != this)
+        {
+            Destroy(this);
+        } else {
+            instance = this;
+        }        
+    }
 
     // Update is called once per frame
     void Update()
