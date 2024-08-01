@@ -15,9 +15,7 @@ public class Manager : MonoBehaviour
             Destroy(this);
         } else {
             instance = this;
-        }
-        
-        
+        }        
     }
 
     void Update(){
