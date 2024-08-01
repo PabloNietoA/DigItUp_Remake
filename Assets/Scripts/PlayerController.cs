@@ -12,6 +12,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float baseSpeed;
     [SerializeField] private float currentSpeed;
     [SerializeField] private float maxSpeed;
+    private float currentXSpeed;
+    private float currentYSpeed;
+    private float currentAngleInRadians;
 
 
     [Header("Rotation")]
@@ -31,20 +34,33 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float maxCapacity;
     [SerializeField] private float currentLoad;
 
-    void Start(){
+
+    private void Awake()
+    {
         // Almacena el primer script creado, que se puede acceder estáticamente
         // Así tenemos una sola variable estática de la que consultamos variables
-        if(instance != null && instance != this)
+        if (instance != null && instance != this)
         {
             Destroy(this);
-        } else {
+        }
+        else
+        {
             instance = this;
-        }        
+        }
+    }
+    void Start(){
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Calcular angulo actual en radianes
+        currentAngleInRadians = transform.eulerAngles.z * Mathf.Deg2Rad;
+        //Calcular la descomposicion de la velocidad en x e y
+        currentXSpeed = currentSpeed * Mathf.Sin(currentAngleInRadians);
+        currentYSpeed = currentSpeed * Mathf.Cos(currentAngleInRadians);
+
         rotatePlayer();
     }
     void rotatePlayer()
@@ -56,4 +72,7 @@ public class PlayerController : MonoBehaviour
     
     //Getters y setters
     public float CurrentSpeed { get { return currentSpeed; } set { currentSpeed = value; } }
+    public float CurrentXSpeed { get { return currentXSpeed; } set { currentXSpeed = value; } }
+    public float CurrentYSpeed { get { return currentYSpeed; } set { currentYSpeed = value; } }
+
 }

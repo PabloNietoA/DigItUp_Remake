@@ -7,24 +7,32 @@ public class Manager : MonoBehaviour
 {
     public static Manager instance;
     public TextMeshProUGUI txtDeepness;
-    private float deepness {get; set;}
-    private PlayerController player;
-    private float currentSpeed;
 
-    
+    private float deepness;
+   
 
-    void Start(){
+
+
+    private void Awake()
+    {
         // Almacena el primer script creado, que se puede acceder estáticamente
         // Así tenemos una sola variable estática de la que consultamos variables
-        if(instance != null && instance != this)
+        if (instance != null && instance != this)
         {
             Destroy(this);
-        } else {
+        }
+        else
+        {
             instance = this;
-        }        
+        }
+    }
+    void Start(){
+         
     }
 
     void Update(){
+
+        //La speed de movimiento de los sprites la coge del playerController
         deepness += Time.deltaTime * PlayerController.instance.CurrentSpeed;
         txtDeepness.text = deepness.ToString();
     }
