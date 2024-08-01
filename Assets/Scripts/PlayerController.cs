@@ -8,21 +8,27 @@ public class PlayerController : MonoBehaviour
 {
     //VARIABLES
     [Header("Speed")]
-    [SerializeField] private float baseSpeed;
-    [SerializeField] private float currentSpeed;
-    [SerializeField] private float maxSpeed;
+    [SerializeField] float baseSpeed { get; set;}
+    [SerializeField] float currentSpeed { get; set;}
+    [SerializeField] float maxSpeed;
+
+
     [Header("Rotation")]
-    [SerializeField] private float maxAngle;
-    [SerializeField] private float turnSpeed;
+    [SerializeField] float maxAngle;
+    [SerializeField] float turnSpeed;
+
+
     [Header("Fuel")]
-    [SerializeField] private float baseFuel;
-    [SerializeField] private float currentFuel;
-    [SerializeField] private float maxFuel;
+    [SerializeField] float baseFuel;
+    [SerializeField] float currentFuel;
+    [SerializeField] float maxFuel;
+
+
     [Header("Capacity")]
-    [SerializeField] private int baseCapacity;
-    [SerializeField] private float currentCapacity;
-    [SerializeField] private float maxCapacity;
-    [SerializeField] private float currentLoad;
+    [SerializeField] int baseCapacity;
+    [SerializeField] float currentCapacity;
+    [SerializeField] float maxCapacity;
+    [SerializeField] float currentLoad;
 
     // Update is called once per frame
     void Update()
