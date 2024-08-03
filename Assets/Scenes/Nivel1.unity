@@ -416,8 +416,6 @@ MonoBehaviour:
   timeBetweenInstances: 1
   automaticTimeBetweenInstances: 1
   automaticBrushDensity: 2.1
-  speed: 10
-  playerGameObject: {fileID: 267041904}
 --- !u!1 &299689668
 GameObject:
   m_ObjectHideFlags: 0
@@ -628,22 +626,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 092a1481948aab74490f03059a831a80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Ores>k__BackingField: []
-  <MineralProbs>k__BackingField:
+  minerals: []
+  mineralProbs:
   - 0.6
   - 0.3
   - 0.1
   - 0
-  <CheckpointProbs>k__BackingField:
-  - 0.6
-  - 0.3
-  - 0.1
-  - 0
-  <DepthPerShift>k__BackingField: 100
-  <MaxWait>k__BackingField: 2000
-  <MinWait>k__BackingField: 200
-  <SpreadX>k__BackingField: 0
-  <SpreadY>k__BackingField: 0
+  checkpointProbs: []
+  depthPerShift: 150
+  maxWait: 2
+  minWait: 0.2
+  spreadX: 200
+  spreadY: 200
 --- !u!1 &2090419681
 GameObject:
   m_ObjectHideFlags: 0
