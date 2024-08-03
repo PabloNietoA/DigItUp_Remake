@@ -11,14 +11,15 @@ public class Minerals : MonoBehaviour
     [field: SerializeField] float[] mineralProbs;
     [field: SerializeField] float[] checkpointProbs;
     [field: SerializeField] int depthPerShift;
-    [field: SerializeField] int maxWait;
-    [field: SerializeField] int minWait;
+    [field: SerializeField] float maxWait;
+    [field: SerializeField] float minWait;
     [field: SerializeField] float spreadX;
     [field: SerializeField] float spreadY;
 
 
     void Start(){
         // Bucle de generación de minerales
+        checkpointProbs = (float[])mineralProbs.Clone();
         StartCoroutine(GenerationLoop());
     }
 
@@ -38,14 +39,14 @@ public class Minerals : MonoBehaviour
             //     Console.Write(MineralProbs[i]);
             // }
 
-            int waitTime = maxWait - ( (int) Manager.instance.Deepness) / 10;
+            float waitTime = maxWait - ( (int) Manager.instance.Deepness) / 10;
 
             yield return new WaitForSeconds(Math.Min(waitTime, minWait));
         }
     }
 
     /** Devuelve, según la profundidad aportada y las probabilidades de aparición
-        de cada mineral, que Ore debe generarse
+        de cada mineral, que mineral debe generarse
     */
     GameObject WhichOre(){
         // Randomly select a mineral based on adjusted probabilities
@@ -77,10 +78,10 @@ public class Minerals : MonoBehaviour
         // Sacamos un numero del 0 al 1 que indica que porcentaje de la capa ha sido atravesado
         // Si queréis utilizarlo para otra cosa, se declara arriba y se calcula así
         float posInLayer = (depthLevel - begDepth) / (endDepth - begDepth);
-        
+
         float lastValue = mineralProbs[layer];
         mineralProbs[layer] = checkpointProbs[layer] - (checkpointProbs[layer] * posInLayer) / 2 ;
-        TraspassProbability(layer, mineralProbs[layer] - lastValue); // Se traspasa el cambio de prob
+        TraspassProbability(layer, lastValue - mineralProbs[layer]); // Se traspasa el cambio de prob
 
         // Se inicializa el siguiente mineral que no ha aparecido todavía para que la función traspase 
         // probabilidad correctamente
@@ -90,8 +91,10 @@ public class Minerals : MonoBehaviour
         }
 
         if(layer > 0){
-            TraspassProbability(layer - 1, mineralProbs[layer - 1]);
-            mineralProbs[layer - 1] = 0;
+            float lastValuePrev = mineralProbs[layer - 1];
+            float newValue = checkpointProbs[layer] / 2 - (checkpointProbs[layer] / 2 * posInLayer);
+            TraspassProbability(layer - 1, lastValuePrev - newValue);
+            mineralProbs[layer - 1] = newValue;
         }
     }
 

@@ -30,7 +30,7 @@ public class Manager : MonoBehaviour
     void Update(){
 
         //La speed de movimiento de los sprites la coge del playerController
-        deepness += Time.deltaTime * PlayerController.instance.CurrentSpeed;
+        deepness += Time.deltaTime * PlayerController.instance.CurrentYSpeed;
         txtDeepness.text = ((int) deepness).ToString() + "m";
     }
 
