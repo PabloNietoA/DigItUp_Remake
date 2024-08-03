@@ -7,14 +7,14 @@ using UnityEngine;
 public class Minerals : MonoBehaviour
 {
     public static Minerals instance;
-    [field: SerializeField] GameObject[] Ores { get; set;}
-    [field: SerializeField] float[] MineralProbs { get; set;}
-    [field: SerializeField] float[] CheckpointProbs { get; set;}
-    [field: SerializeField] int DepthPerShift { get; set;}
-    [field: SerializeField] int MaxWait{ get; set;}
-    [field: SerializeField] int MinWait{ get; set;}
-    [field: SerializeField] float SpreadX { get; set;}
-    [field: SerializeField] float SpreadY { get; set;}
+    [field: SerializeField] GameObject[] minerals;
+    [field: SerializeField] float[] mineralProbs;
+    [field: SerializeField] float[] checkpointProbs;
+    [field: SerializeField] int depthPerShift;
+    [field: SerializeField] int maxWait;
+    [field: SerializeField] int minWait;
+    [field: SerializeField] float spreadX;
+    [field: SerializeField] float spreadY;
 
 
     void Start(){
@@ -38,9 +38,9 @@ public class Minerals : MonoBehaviour
             //     Console.Write(MineralProbs[i]);
             // }
 
-            int waitTime = MaxWait - ( (int) Manager.instance.Deepness) / 10;
+            int waitTime = maxWait - ( (int) Manager.instance.Deepness) / 10;
 
-            yield return new WaitForSeconds(Math.Min(waitTime, MinWait));
+            yield return new WaitForSeconds(Math.Min(waitTime, minWait));
         }
     }
 
@@ -51,47 +51,47 @@ public class Minerals : MonoBehaviour
         // Randomly select a mineral based on adjusted probabilities
         float randomValue = UnityEngine.Random.value;
         float cumulativeProbability = 0.0f;
-        for (int i = 0; i < MineralProbs.Length; i++)
+        for (int i = 0; i < mineralProbs.Length; i++)
         {
-            cumulativeProbability += MineralProbs[i];
+            cumulativeProbability += mineralProbs[i];
             if (randomValue <= cumulativeProbability)
             {
-                return Ores[i];
+                return minerals[i];
             }
         }
-        return Ores[MineralProbs.Length - 1]; // Default to last mineral
+        return minerals[mineralProbs.Length - 1]; // Default to last mineral
     }
 
     /** Ajusta probabilidades de aparición de los minerales cada vez que generamos uno
     */
     void AdjustProbs(float depthLevel){
-        int numMinerals = MineralProbs.Length;
+        int numMinerals = mineralProbs.Length;
         int lastMineral = numMinerals - 1;
         
         // Capa en la que nos encontramos, corresponde a un mineral
-        int layer = (int) Math.Min(depthLevel / DepthPerShift, lastMineral);
+        int layer = (int) Math.Min(depthLevel / depthPerShift, lastMineral);
 
-        int begDepth = DepthPerShift * layer;
-        int endDepth = DepthPerShift * (layer + 1);
+        int begDepth = depthPerShift * layer;
+        int endDepth = depthPerShift * (layer + 1);
 
         // Sacamos un numero del 0 al 1 que indica que porcentaje de la capa ha sido atravesado
         // Si queréis utilizarlo para otra cosa, se declara arriba y se calcula así
         float posInLayer = (depthLevel - begDepth) / (endDepth - begDepth);
         
-        float lastValue = MineralProbs[layer];
-        MineralProbs[layer] = CheckpointProbs[layer] - (CheckpointProbs[layer] * posInLayer) / 2 ;
-        TraspassProbability(layer, MineralProbs[layer] - lastValue); // Se traspasa el cambio de prob
+        float lastValue = mineralProbs[layer];
+        mineralProbs[layer] = checkpointProbs[layer] - (checkpointProbs[layer] * posInLayer) / 2 ;
+        TraspassProbability(layer, mineralProbs[layer] - lastValue); // Se traspasa el cambio de prob
 
         // Se inicializa el siguiente mineral que no ha aparecido todavía para que la función traspase 
         // probabilidad correctamente
         if(layer + 2 < lastMineral && layer > 0){
-            MineralProbs[layer + 2] = 0.1f;
-            MineralProbs[layer - 1] -= 0.1f;
+            mineralProbs[layer + 2] = 0.1f;
+            mineralProbs[layer - 1] -= 0.1f;
         }
 
         if(layer > 0){
-            TraspassProbability(layer - 1, MineralProbs[layer - 1]);
-            MineralProbs[layer - 1] = 0;
+            TraspassProbability(layer - 1, mineralProbs[layer - 1]);
+            mineralProbs[layer - 1] = 0;
         }
     }
 
@@ -100,21 +100,21 @@ public class Minerals : MonoBehaviour
         tienen acutalmente. 
     */
     void TraspassProbability(int index, float prob){
-        if (index + 1 >= MineralProbs.Length)
+        if (index + 1 >= mineralProbs.Length)
             return;
             
-        float nextProb = MineralProbs[index + 1];
-        if (index + 2 >= MineralProbs.Length)
+        float nextProb = mineralProbs[index + 1];
+        if (index + 2 >= mineralProbs.Length)
         {
-            MineralProbs[index + 1] += prob;
+            mineralProbs[index + 1] += prob;
             return;
         }
 
-        float nextNextProb = MineralProbs[index + 2];
+        float nextNextProb = mineralProbs[index + 2];
         float totalNextProb = nextProb + nextNextProb;
 
-        MineralProbs[index + 1] += nextProb * prob / totalNextProb;
-        MineralProbs[index + 2] += nextNextProb * prob / totalNextProb;
+        mineralProbs[index + 1] += nextProb * prob / totalNextProb;
+        mineralProbs[index + 2] += nextNextProb * prob / totalNextProb;
     }
     
     // void GenerateOre(GameObject ore)

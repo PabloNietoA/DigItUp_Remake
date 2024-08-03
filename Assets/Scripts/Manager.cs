@@ -10,9 +10,6 @@ public class Manager : MonoBehaviour
 
     private float deepness;
    
-
-
-
     private void Awake()
     {
         // Almacena el primer script creado, que se puede acceder estáticamente
