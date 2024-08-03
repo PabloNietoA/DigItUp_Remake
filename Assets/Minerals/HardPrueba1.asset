@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: HardPrueba1
   m_EditorClassIdentifier: 
   itemID: 0
-  itemName: 
-  itemDescription: 
+  itemName: Hard1
+  itemDescription: Prueba del hard1
   itemSprite: {fileID: 0}
   goldReward: 0
   durability: 0

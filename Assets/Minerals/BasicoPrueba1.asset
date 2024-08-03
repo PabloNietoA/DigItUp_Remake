@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: BasicoPrueba1
   m_EditorClassIdentifier: 
   itemID: 0
-  itemName: 
+  itemName: Basico1
+  itemDescription: Prueba de basico 1
   itemSprite: {fileID: 0}
   goldReward: 0
