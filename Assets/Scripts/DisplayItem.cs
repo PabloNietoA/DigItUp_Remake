@@ -87,7 +87,6 @@ public class DisplayItem : MonoBehaviour
     {
 
         Debug.Log(Cost);
-        SelectedItemID = StoreManager.SelectedItemID;
 
         
         
