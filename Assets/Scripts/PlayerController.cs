@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, quaternion, Time.deltaTime * turnSpeed);
     }
     
-    //Getters y setters
+    //Getters y setters (Properties)
     public float CurrentSpeed { get { return currentSpeed; } set { currentSpeed = value; } }
     public float CurrentXSpeed { get { return currentXSpeed; } set { currentXSpeed = value; } }
     public float CurrentYSpeed { get { return currentYSpeed; } set { currentYSpeed = value; } }

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a299099035d488b498538c6cc6d2f217, type: 3}
+  m_Name: Prueba2
+  m_EditorClassIdentifier: 
+  id: 1
+  name: Prueba2
+  sprite: {fileID: 21300000, guid: 6a7131eb7f34066449e98c575249ff84, type: 3}
+  initialCost: 2000
+  priceIncreaseIndex: 1.2
+  startLevel: 0
+  maxLevel: 12

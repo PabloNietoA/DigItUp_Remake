@@ -1,139 +1,86 @@
-ï»¿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using TMPro;
 
 public class DisplayItem : MonoBehaviour
 {
-    public BuyableObject Item;
-    public TextMeshProUGUI NameText;
-    public TextMeshProUGUI PriceText;
-    public Image ItemImage;
-    public int Maxlevel = 8;
-    public int ActualLevel = 1;
-    public float PriceIncreaseIndex;
-    public float FuelPriceIncreaseIndex;
-    public float EnginePriceIncreaseIndex;
-    public float CapacityPriceIncreaseIndex;
-    public int Cost;
-    public TextMeshProUGUI LevelText;
-
-
-
-    public int SelectedItemID;
-   
-    public int ItemID;
+    [Header("Buyable Object Reference")]
+    [SerializeField] private BuyableObject item; // Scriptable object que contiene los atributos del objeto que se puede comprar
     
-    
-    public int MaxFuelLevel= 16;
-    public static int FuelLevel=1;
-    public int MaxEngineLevel=5;
-    public static int EngineLevel= 1;
-    public int MaxCapacityLevel=32;
-    public static int CapacityLevel = 1;
 
-   
+    [Header("Level")]
+    [SerializeField] private static int[] itemLevels; // Niveles del objeto
 
-    private void Awake()
-    {
+    [Header("Visual Components")]
+    [SerializeField] private TextMeshProUGUI nameText; // Texto que muestra el nombre del objeto
+    [SerializeField] private Image itemImage; // Imagen del objeto
+    [SerializeField] private TextMeshProUGUI priceText; // Texto que muestra el precio del objeto
+    [SerializeField] private TextMeshProUGUI levelText; // Texto que muestra el nivel actual del objeto
+    [SerializeField] private GameObject selectedSprite; // Sprite que se activa cuando el objeto está seleccionado
 
-        switch (ItemID)
-        {
-            case 1:
-                ActualLevel = FuelLevel;
-                PriceIncreaseIndex = FuelPriceIncreaseIndex;
-                Maxlevel = MaxFuelLevel;
-                break;
-            case 2:
-                ActualLevel = EngineLevel;
-                PriceIncreaseIndex = EnginePriceIncreaseIndex;
-                Maxlevel = MaxEngineLevel;
-                break;
-            case 3:
-                ActualLevel = CapacityLevel;
-                PriceIncreaseIndex = CapacityPriceIncreaseIndex;
-                Maxlevel = MaxCapacityLevel;
-                break;
+    [Header("Store Manager Reference")]
+    [SerializeField] private StoreManager storeManager; // Referencia al StoreManager
 
-        }
-    }
+    private int currentCost; // Coste del objeto
+
     // Start is called before the first frame update
     void Start()
     {
-
-       
-        NameText.text = Item.itemName;
-        if(ActualLevel != 1)
+        //Autoasignar el store manager
+        if(storeManager == null)
         {
-            Cost = Mathf.RoundToInt((float)Item.initialCost * ActualLevel * PriceIncreaseIndex);
+            storeManager = FindObjectOfType<StoreManager>();
         }
-        else
-        {
-            Cost = Mathf.RoundToInt((float)Item.initialCost * ActualLevel);
-        }
-        
-        PriceText.text =  Cost.ToString()+"$";
-        
-        ItemImage.sprite = Item.itemSprite;
-        LevelText.text = "Lv." + ActualLevel.ToString();
-        Debug.Log(CapacityLevel);
 
+        // Obtener los niveles de los objetos
 
+        itemLevels = storeManager.ItemLevels;
 
+        // Calcular el precio del objeto
+
+        currentCost = Mathf.FloorToInt(item.initialCost * itemLevels[item.id] * item.priceIncreaseIndex);
+
+        // Asignar los valores del objeto a los componentes visuales
+
+        nameText.text = item.name;
+        itemImage.sprite = item.sprite;
+        priceText.text = currentCost.ToString()+"$";
+        levelText.text = "Lv."+itemLevels[item.id].ToString();
     }
-    private void Update()
-    {
-
-        Debug.Log(Cost);
-
-        
-        
-        ItemID = Item.itemID;
-        switch (ItemID)
-        {
-            case 1:
-                FuelLevel = ActualLevel;
-                PriceIncreaseIndex = FuelPriceIncreaseIndex;
-                Maxlevel = MaxFuelLevel;    
-                break;
-            case 2:
-                EngineLevel = ActualLevel;
-                PriceIncreaseIndex = EnginePriceIncreaseIndex;
-                Maxlevel = MaxEngineLevel;  
-                break;
-            case 3:
-                CapacityLevel = ActualLevel;
-                PriceIncreaseIndex = CapacityPriceIncreaseIndex;
-                Maxlevel = MaxCapacityLevel;
-                break;
-           
-        }
-        if(ActualLevel>= Maxlevel)
-        {
-            LevelText.text = "MAX";
-        }
-    }
-    public void Upgrade()
-    {
-        if (SelectedItemID == ItemID)
-        {
-            if (ActualLevel < Maxlevel)
-            {
-                ActualLevel++;
-                LevelText.text = "Lv." + ActualLevel.ToString();
-                Cost = Mathf.RoundToInt((float)Cost * PriceIncreaseIndex);
-                PriceText.text = Cost.ToString() + "$";
-            }
-        }
-       
-
-        
-    }
-  
-  
     
     
-    
+
+    //Metodos para los botones
+
+    //public void BuyItem()
+    //{
+    //    //Comprobar si el jugador tiene suficiente oro
+    //    if (storeManager.Gold >= currentCost)
+    //    {
+    //        //Restar el oro
+    //        storeManager.Gold -= currentCost;
+    //        //Incrementar el nivel del objeto
+    //        itemLevels[item.id]++;
+    //        //Actualizar el precio
+    //        currentCost = Mathf.FloorToInt(item.initialCost * itemLevels[item.id] * item.priceIncreaseIndex);
+    //        //Actualizar el texto del precio
+    //        priceText.text = currentCost.ToString() + "$";
+    //        //Actualizar el texto del nivel
+    //        levelText.text = "Lv." + itemLevels[item.id].ToString();
+    //        //Actualizar el nivel del objeto en el store manager
+    //        storeManager.ItemLevels[item.id] = itemLevels[item.id];
+    //    }
+    //}
+
+    public void SelectItem() {         
+        storeManager.SelectItemByIndex(item.id);
+    }
+
+
+    // Getters and Setters (Properties)
+    public BuyableObject Item { get { return item; } set { item = value; } }
+    public GameObject SelectedSprite { get { return selectedSprite; } set { selectedSprite = value; } }
+
 }
