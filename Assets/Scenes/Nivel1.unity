@@ -632,8 +632,7 @@ MonoBehaviour:
   - 0.3
   - 0.1
   - 0
-  checkpointProbs: []
-  depthPerShift: 150
+  layerDepth: 150
   maxWait: 2
   minWait: 0.2
   spreadX: 200

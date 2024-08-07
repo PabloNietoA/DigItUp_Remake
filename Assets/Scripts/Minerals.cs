@@ -8,23 +8,53 @@ public class Minerals : MonoBehaviour
 {
     public static Minerals instance;
     [field: SerializeField] GameObject[] minerals;
+
+    // Array de probabilidades actuales de cada mineral
     [field: SerializeField] float[] mineralProbs;
-    [field: SerializeField] float[] checkpointProbs;
-    [field: SerializeField] int depthPerShift;
+
+    // Matriz, un set de probabilidades por cada inicio de capa
+    // Si la capa actual sobrepasa el array, se usará el último set de probs
+    [field: SerializeField] float[,] checkpointProbs;
+    [field: SerializeField] int layerDepth;
     [field: SerializeField] float maxWait;
     [field: SerializeField] float minWait;
     [field: SerializeField] float spreadX;
     [field: SerializeField] float spreadY;
 
+    
+
+    // private void Awake()
+    // {
+    //     // Almacena el primer script creado, que se puede acceder estáticamente
+    //     // Así tenemos una sola variable estática de la que consultamos variables
+    //     if (instance != null && instance != this) { 
+    //         Destroy(this); 
+    //     } else { 
+    //         instance = this; 
+    //     }
+    // }
 
     void Start(){
+        initProbs();
+        for (int i = 0; i < mineralProbs.Length; i++){
+            mineralProbs[i] = checkpointProbs[0,i];
+        }
+
         // Bucle de generación de minerales
-        checkpointProbs = (float[])mineralProbs.Clone();
         StartCoroutine(GenerationLoop());
     }
+    void initProbs(){
+        checkpointProbs = new float[,] {
+            {0.6f, 0.3f, 0.1f,   0f},
+            {0.4f, 0.5f, 0.1f,   0f},
+            {0.2f, 0.5f, 0.3f,   0f},
+            {0.1f, 0.3f, 0.6f, 0.1f},
+            {0.1f, 0.1f, 0.6f, 0.3f},
+            {  0f,   0f, 0.4f, 0.6f} 
+        };
+    }
 
-    /** <summary>
-        Corutina que se encarga de generar cada x tiempo el mineral correspondiente. 
+    /** Corutina que se encarga de generar cada x tiempo el mineral correspondiente. 
         El tiempo de espera se reduce conforme a la profundidad
     */
     IEnumerator GenerationLoop(){
@@ -33,15 +63,8 @@ public class Minerals : MonoBehaviour
             AdjustProbs(Manager.instance.Deepness);
             // GenerateOre(WhichOre());
 
-            // Print probabilidades cada vez que se cambian
-            // for(int i = 0; i < MineralProbs.Length; i++)
-            // {
-            //     Console.Write(MineralProbs[i]);
-            // }
-
-            float waitTime = maxWait - ( (int) Manager.instance.Deepness) / 10;
-
-            yield return new WaitForSeconds(Math.Min(waitTime, minWait));
+            float waitTime = Math.Min(maxWait - (Manager.instance.Deepness / layerDepth * 100), minWait);
+            yield return new WaitForSeconds(waitTime);
         }
     }
 
@@ -49,7 +72,7 @@ public class Minerals : MonoBehaviour
         de cada mineral, que mineral debe generarse
     */
     GameObject WhichOre(){
-        // Randomly select a mineral based on adjusted probabilities
+        // Selecciona aleatoriamente un mineral a generar basado en las probabildades
         float randomValue = UnityEngine.Random.value;
         float cumulativeProbability = 0.0f;
         for (int i = 0; i < mineralProbs.Length; i++)
@@ -65,37 +88,30 @@ public class Minerals : MonoBehaviour
 
     /** Ajusta probabilidades de aparición de los minerales cada vez que generamos uno
     */
-    void AdjustProbs(float depthLevel){
-        int numMinerals = mineralProbs.Length;
-        int lastMineral = numMinerals - 1;
-        
-        // Capa en la que nos encontramos, corresponde a un mineral
-        int layer = (int) Math.Min(depthLevel / depthPerShift, lastMineral);
+    void AdjustProbs(float depth){
+        int lastMineral = mineralProbs.Length - 1;
 
-        int begDepth = depthPerShift * layer;
-        int endDepth = depthPerShift * (layer + 1);
+        int numLayers = checkpointProbs.GetLength(0);
+        int lastLayer = numLayers - 1;
+       
+        // Capa en la que nos encontramos, corresponde a un mineral
+        if(depth == 0) {return;}
+        
+        int layer = (int) depth / layerDepth;
+    
+        if (layer >= lastLayer) {return;}
+ 
+        int begDepth = layerDepth * layer;
+        int endDepth = layerDepth * (layer + 1);
 
         // Sacamos un numero del 0 al 1 que indica que porcentaje de la capa ha sido atravesado
         // Si queréis utilizarlo para otra cosa, se declara arriba y se calcula así
-        float posInLayer = (depthLevel - begDepth) / (endDepth - begDepth);
+        float posInLayer = (depth - begDepth) / (endDepth - begDepth);
 
-        float lastValue = mineralProbs[layer];
-        mineralProbs[layer] = checkpointProbs[layer] - (checkpointProbs[layer] * posInLayer) / 2 ;
-        TraspassProbability(layer, lastValue - mineralProbs[layer]); // Se traspasa el cambio de prob
-
-        // Se inicializa el siguiente mineral que no ha aparecido todavía para que la función traspase 
-        // probabilidad correctamente
-        if(layer + 2 < lastMineral && layer > 0){
-            mineralProbs[layer + 2] = 0.1f;
-            mineralProbs[layer - 1] -= 0.1f;
+        for (int i = 0; i < mineralProbs.Length; i++){
+            mineralProbs[i] = checkpointProbs[layer + 1, i] * posInLayer + checkpointProbs[layer, i] * (1 - posInLayer);
         }
 
-        if(layer > 0){
-            float lastValuePrev = mineralProbs[layer - 1];
-            float newValue = checkpointProbs[layer] / 2 - (checkpointProbs[layer] / 2 * posInLayer);
-            TraspassProbability(layer - 1, lastValuePrev - newValue);
-            mineralProbs[layer - 1] = newValue;
-        }
     }
 
     /** Esta función coge la probabilidad del mineral del indice aportado 

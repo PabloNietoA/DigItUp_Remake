@@ -14,13 +14,10 @@ public class Manager : MonoBehaviour
     {
         // Almacena el primer script creado, que se puede acceder estáticamente
         // Así tenemos una sola variable estática de la que consultamos variables
-        if (instance != null && instance != this)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            instance = this;
+        if (instance != null && instance != this) { 
+            Destroy(this); 
+        } else { 
+            instance = this; 
         }
     }
     void Start(){
