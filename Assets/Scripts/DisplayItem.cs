@@ -49,30 +49,33 @@ public class DisplayItem : MonoBehaviour
         priceText.text = currentCost.ToString()+"$";
         levelText.text = "Lv."+itemLevels[item.id].ToString();
     }
-    
-    
+
+    //Metodo para comprar este objeto
+    public void BuyItem()
+    {
+        // Comprobar si el jugador tiene suficiente oro
+        if (storeManager.Gold >= currentCost)
+        {
+            // Restar el oro
+            storeManager.Gold -= currentCost;
+            // Incrementar el nivel del objeto
+            itemLevels[item.id]++;
+            // Actualizar el precio
+            currentCost = Mathf.FloorToInt(item.initialCost * itemLevels[item.id] * item.priceIncreaseIndex);
+            // Actualizar el texto del precio
+            priceText.text = currentCost.ToString() + "$";
+            // Actualizar el texto del nivel
+            levelText.text = "Lv." + itemLevels[item.id].ToString();
+            // Actualizar el nivel del objeto en el store manager
+            storeManager.ItemLevels[item.id] = itemLevels[item.id]; 
+        }
+    }
+
 
     //Metodos para los botones
 
-    //public void BuyItem()
-    //{
-    //    //Comprobar si el jugador tiene suficiente oro
-    //    if (storeManager.Gold >= currentCost)
-    //    {
-    //        //Restar el oro
-    //        storeManager.Gold -= currentCost;
-    //        //Incrementar el nivel del objeto
-    //        itemLevels[item.id]++;
-    //        //Actualizar el precio
-    //        currentCost = Mathf.FloorToInt(item.initialCost * itemLevels[item.id] * item.priceIncreaseIndex);
-    //        //Actualizar el texto del precio
-    //        priceText.text = currentCost.ToString() + "$";
-    //        //Actualizar el texto del nivel
-    //        levelText.text = "Lv." + itemLevels[item.id].ToString();
-    //        //Actualizar el nivel del objeto en el store manager
-    //        storeManager.ItemLevels[item.id] = itemLevels[item.id];
-    //    }
-    //}
+
+
 
     public void SelectItem() {         
         storeManager.SelectItemByIndex(item.id);

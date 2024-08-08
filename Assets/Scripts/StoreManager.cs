@@ -6,8 +6,8 @@ using TMPro;
 
 public class StoreManager : MonoBehaviour
 {
-    [Header("Buyable Objects Reference")]
-    [SerializeField] private DisplayItem[] items; // Array de objetos que se pueden comprar
+    [Header("Displayed Objects Reference")]
+    [SerializeField] private DisplayItem[] displayItems; // Array de objetos que se pueden comprar
 
     [Header("Gold")]
     [SerializeField] private int gold; // Oro del jugador
@@ -25,11 +25,11 @@ public class StoreManager : MonoBehaviour
     void Awake() //Awake para que se ejecute la inicializacion antes del start de DisplayItem
     {
         // Inicializar los niveles de los objetos
-        //items = FindObjectsOfType<DisplayItem>(); /Funciona pero no aparecen en el orden correcto
-        itemLevels = new int[items.Length];
-        for (int i = 0; i < items.Length; i++)
+        //displayItems = FindObjectsOfType<DisplayItem>(); /Funciona pero no aparecen en el orden correcto
+        itemLevels = new int[displayItems.Length];
+        for (int i = 0; i < displayItems.Length; i++)
         {
-            itemLevels[i] = items[i].Item.startLevel;
+            itemLevels[i] = displayItems[i].Item.startLevel;
         }
     }
 
@@ -39,26 +39,39 @@ public class StoreManager : MonoBehaviour
         SelectItemByIndex(0);
         //Asignar el oro al texto
         goldText.text = gold.ToString() + "$";
-        
+
     }
-    public void SelectItemByIndex(int index) {      
+    public void SelectItemByIndex(int index)
+    {
         //Marcar id como seleccionado
         selectedIndex = index;
 
         // Desactivar el sprite seleccionado de todos los objetos
-        for (int i = 0; i < items.Length; i++)
+        for (int i = 0; i < displayItems.Length; i++)
         {
-            Debug.Log("Desactivando sprite seleccionado de "+items[i].Item.name);
-            items[i].SelectedSprite.SetActive(false);
+            Debug.Log("Desactivando sprite seleccionado de " + displayItems[i].Item.name);
+            displayItems[i].SelectedSprite.SetActive(false);
         }
 
         // Activar el sprite seleccionado del objeto seleccionado
-        Debug.Log("Activando sprite seleccionado de " + items[index].Item.name);
-        items[index].SelectedSprite.SetActive(true);
+        Debug.Log("Activando sprite seleccionado de " + displayItems[index].Item.name);
+        displayItems[index].SelectedSprite.SetActive(true);
     }
 
+    //Metodos para ser llamados por los botones de la UI
+
+    public void BuyItem()
+    {
+        //Comprar el objeto seleccionado
+        displayItems[selectedIndex].BuyItem(); //Llama al metodo BuyItem de DisplayItem desde donde se hace toda la logica de compra
+        //Actualizar el texto del oro
+        goldText.text = gold.ToString() + "$";
+
+    }
+
+
     // Getters and Setters (Properties)
-    public  int[] ItemLevels { get { return itemLevels; } set { itemLevels = value; } }
+    public int[] ItemLevels { get { return itemLevels; } set { itemLevels = value; } }
     public int Gold { get { return gold; } set { gold = value; } }
 
     public int SelectedIndex { get { return selectedIndex; } set { selectedIndex = value; } }

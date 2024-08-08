@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 0
   name: Prueba1
   sprite: {fileID: 21300000, guid: 2af5af91d43c5bb4dbc9cd1e7415527e, type: 3}
-  initialCost: 1000
+  initialCost: 50
   priceIncreaseIndex: 2
   startLevel: 1
   maxLevel: 12
