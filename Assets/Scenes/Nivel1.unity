@@ -411,8 +411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26d83fdee8ed57c4e9fbbaa5fdcb1090, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  brush: {fileID: 3170656929007332702, guid: b3d842fd2e0709c4d91f4a198f9719bc, type: 3}
-  destructionHeight: 12
+  brushPrefab: {fileID: 2919294395715906483, guid: c93a9a23e633a6c498760d6941a7224d, type: 3}
   timeBetweenInstances: 1
   automaticTimeBetweenInstances: 1
   automaticBrushDensity: 2.1
