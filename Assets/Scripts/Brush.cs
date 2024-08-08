@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class Brush : MonoBehaviour
 {
-    [SerializeField] private GameObject brush;
-    [SerializeField] private float destructionHeight;
+    [SerializeField] private GameObject brushPrefab;
     [SerializeField] private float timeBetweenInstances;
     [SerializeField] private bool automaticTimeBetweenInstances;
     [SerializeField] private float automaticBrushDensity;
@@ -29,27 +28,8 @@ public class Brush : MonoBehaviour
 
         if (timeSinceLastInstance >= timeBetweenInstances)
         {
-            GameObject brushInstance = Instantiate(brush, transform.position, transform.rotation);
-            StartCoroutine(Move(brushInstance));
+            Instantiate(brushPrefab, transform.position, transform.rotation);
             timeSinceLastInstance = 0;
-        }
-    }
-
-    // Coroutine para hacer que las instancias se muevan
-    private IEnumerator Move(GameObject instance)
-    {
-        while (instance != null)
-        {
-            if (instance.transform.position.y > destructionHeight)
-            {
-                Destroy(instance);
-                yield break; // Stop the coroutine after destroying the GameObject
-            }
-
-            instance.transform.position += Vector3.up * playerController.CurrentYSpeed * Time.deltaTime;
-            instance.transform.position += Vector3.left * playerController.CurrentXSpeed * Time.deltaTime;
-
-            yield return null;
         }
     }
 
