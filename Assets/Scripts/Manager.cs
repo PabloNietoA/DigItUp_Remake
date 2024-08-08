@@ -7,9 +7,11 @@ public class Manager : MonoBehaviour
 {
     public static Manager instance;
     public TextMeshProUGUI txtDeepness;
+    public TextMeshProUGUI txtMoney;
 
     private float deepness;
-   
+    private int money;
+
     private void Awake()
     {
         // Almacena el primer script creado, que se puede acceder estáticamente
@@ -21,7 +23,8 @@ public class Manager : MonoBehaviour
         }
     }
     void Start(){
-         
+        this.money = 0;
+        this.deepness = 0f;
     }
 
     void Update(){
@@ -29,6 +32,11 @@ public class Manager : MonoBehaviour
         //La speed de movimiento de los sprites la coge del playerController
         deepness += Time.deltaTime * PlayerController.instance.CurrentYSpeed;
         txtDeepness.text = ((int) deepness).ToString() + "m";
+        txtMoney.text = "$" + money.ToString();
+    }
+
+    void addMoney(int money){
+        this.money += money;
     }
 
     public float Deepness {get { return deepness; } set { deepness = value; } }
