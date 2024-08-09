@@ -7,19 +7,20 @@ using UnityEngine;
 public class MineralsManager : MonoBehaviour
 {
     // public static Minerals instance;
-    [field: SerializeField] GameObject[] minerals;
+    [SerializeField] private GameObject[] minerals;
 
     // Array de probabilidades actuales de cada mineral
-    [field: SerializeField] float[] mineralProbs;
+    [SerializeField] private float[] mineralProbs;
 
     // Matriz, un set de probabilidades por cada inicio de capa
     // Si la capa actual sobrepasa el array, se usará el último set de probs
-    [field: SerializeField] float[,] checkpointProbs;
-    [field: SerializeField] int layerDepth;
-    [field: SerializeField] float maxWait;
-    [field: SerializeField] float minWait;
-    [field: SerializeField] float spreadX;
-    [field: SerializeField] float spreadY;
+    [SerializeField] private float[,] checkpointProbs;
+    [SerializeField] private int layerDepth;
+    [SerializeField] private float maxWait;
+    [SerializeField] private float minWait;
+    [SerializeField] private float spreadX;
+    [SerializeField] private float spreadY;
+    [SerializeField] private float timePerLayerDecrease;
 
     void Start(){
         initProbs();
@@ -50,7 +51,7 @@ public class MineralsManager : MonoBehaviour
             AdjustProbs(Manager.instance.Deepness);
             GenerateOre(WhichOre());
 
-            float waitTime = Math.Min(maxWait - (Manager.instance.Deepness / layerDepth), minWait);
+            float waitTime = Math.Max(maxWait - (Manager.instance.Deepness / layerDepth * timePerLayerDecrease), minWait);
             yield return new WaitForSeconds(waitTime);
         }
     }
