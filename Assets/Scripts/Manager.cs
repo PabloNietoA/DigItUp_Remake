@@ -35,7 +35,7 @@ public class Manager : MonoBehaviour
         txtMoney.text = "$" + money.ToString();
     }
 
-    void addMoney(int money){
+    public void addMoney(int money){
         this.money += money;
     }
 

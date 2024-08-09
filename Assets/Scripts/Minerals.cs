@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Minerals : MonoBehaviour
 {
-    public static Minerals instance;
+    // public static Minerals instance;
     [field: SerializeField] GameObject[] minerals;
 
     // Array de probabilidades actuales de cada mineral
@@ -20,19 +20,6 @@ public class Minerals : MonoBehaviour
     [field: SerializeField] float minWait;
     [field: SerializeField] float spreadX;
     [field: SerializeField] float spreadY;
-
-    
-
-    // private void Awake()
-    // {
-    //     // Almacena el primer script creado, que se puede acceder estáticamente
-    //     // Así tenemos una sola variable estática de la que consultamos variables
-    //     if (instance != null && instance != this) { 
-    //         Destroy(this); 
-    //     } else { 
-    //         instance = this; 
-    //     }
-    // }
 
     void Start(){
         initProbs();
@@ -61,9 +48,9 @@ public class Minerals : MonoBehaviour
         while (true)
         {
             AdjustProbs(Manager.instance.Deepness);
-            // GenerateOre(WhichOre());
+            GenerateOre(WhichOre());
 
-            float waitTime = Math.Min(maxWait - (Manager.instance.Deepness / layerDepth * 100), minWait);
+            float waitTime = Math.Min(maxWait - (Manager.instance.Deepness / layerDepth), minWait);
             yield return new WaitForSeconds(waitTime);
         }
     }
@@ -113,35 +100,15 @@ public class Minerals : MonoBehaviour
         }
 
     }
-
-    /** Esta función coge la probabilidad del mineral del indice aportado 
-        y la reparte entre los dos siguientes, proporcionalmente a la que 
-        tienen acutalmente. 
-    */
-    void TraspassProbability(int index, float prob){
-        if (index + 1 >= mineralProbs.Length)
-            return;
-            
-        float nextProb = mineralProbs[index + 1];
-        if (index + 2 >= mineralProbs.Length)
-        {
-            mineralProbs[index + 1] += prob;
-            return;
-        }
-
-        float nextNextProb = mineralProbs[index + 2];
-        float totalNextProb = nextProb + nextNextProb;
-
-        mineralProbs[index + 1] += nextProb * prob / totalNextProb;
-        mineralProbs[index + 2] += nextNextProb * prob / totalNextProb;
-    }
     
-    // void GenerateOre(GameObject ore)
-    // {
-    //     // Generar posición aleatoria dentro de una esfera alrededor del punto de transformación
-    //     Vector3 randomPosition = Vector3.Scale(UnityEngine.Random.insideUnitSphere, new Vector3(SpreadX, SpreadY, 10f));
+    void GenerateOre(GameObject ore)
+    {
+        // Generar posición aleatoria dentro de una esfera alrededor del punto de transformación
+        Vector3 randomPosition = Vector3.Scale(UnityEngine.Random.insideUnitSphere, new Vector3(spreadX, spreadY, 10f));
 
-    //     // Crear y destruir el clon de mineral
-    //     GameObject clone = Instantiate(ore, randomPosition, Quaternion.identity);
-    // }
+        randomPosition += transform.position - new Vector3(0,24,0);
+
+        // Crear y destruir el clon de mineral
+        GameObject clone = Instantiate(ore, randomPosition, Quaternion.identity);
+    }
 }
