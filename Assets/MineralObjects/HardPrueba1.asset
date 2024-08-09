@@ -9,12 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78a7f13c0b1975e40a7bface11b1b1a7, type: 3}
+  m_Script: {fileID: 11500000, guid: d4825a74c7d63d74398a77e9ae60c042, type: 3}
   m_Name: HardPrueba1
   m_EditorClassIdentifier: 
-  itemID: 0
-  itemName: Hard1
-  itemDescription: Prueba del hard1
-  itemSprite: {fileID: 0}
-  goldReward: 0
-  durability: 0
+  id: 1
+  name: 
+  description: 
+  sprite: {fileID: 0}
+  moneyReward: 0
+  durability: 10
+  minimumDrill: 3

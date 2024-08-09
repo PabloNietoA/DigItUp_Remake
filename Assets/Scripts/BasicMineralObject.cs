@@ -8,11 +8,11 @@ public class BasicMineralObject : ScriptableObject
 {
     //Atributos de los minerales basicos
     //Distintos para cada mineral
-    public int itemID;
-    public string itemName;
-    public string itemDescription;
-    public Sprite itemSprite;
-    //Oro otorgado al recolectar el mineral
-    public int goldReward;
+    public int id;
+    public new string name;
+    public string description;
+    public Sprite sprite;
+    //Dinero otorgado al recolectar el mineral
+    public int moneyReward;
     
 }

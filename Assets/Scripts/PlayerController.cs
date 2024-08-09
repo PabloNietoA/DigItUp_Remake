@@ -24,6 +24,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float maxAngle;
     [SerializeField] private float turnSpeed;
 
+    [Header("Drill")]
+    [SerializeField] private EdgeCollider2D drillCollider;
+
+
 
     [Header("Fuel")]
     [SerializeField] private float baseFuel;
@@ -39,6 +43,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float currentCapacity;
     [SerializeField] private float maxCapacity;
     [SerializeField] private float currentLoad;
+
+
 
 
     private void Awake()
@@ -88,7 +94,18 @@ public class PlayerController : MonoBehaviour
         fuelBarImage.fillAmount = currentFuel / maxFuel;
         fuelBarImage.color = fuelBarGradient.Evaluate(fuelBarImage.fillAmount);
     }
-    
+
+    //Funcion para detectar colisiones con objetos minables
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+       Debug.Log("Colision con " + collider.gameObject.name);
+        IMineable minable = collider.GetComponent<IMineable>();
+        if (minable != null)
+        {
+            minable.Mined();
+        }
+    }
+
     //Getters y setters (Properties)
     public float CurrentSpeed { get { return currentSpeed; } set { currentSpeed = value; } }
     public float CurrentXSpeed { get { return currentXSpeed; } set { currentXSpeed = value; } }

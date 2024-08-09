@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5155a9da51a29254da498c0a7772bb3f, type: 3}
   m_Name: BasicoPrueba1
   m_EditorClassIdentifier: 
-  itemID: 0
-  itemName: Basico1
-  itemDescription: Prueba de basico 1
-  itemSprite: {fileID: 0}
-  goldReward: 0
+  id: 0
+  name: PruebaBasico
+  description: PruebaBasico
+  sprite: {fileID: 21300000, guid: b22c02b721241874db97eacdfe0faa43, type: 3}
+  moneyReward: 20
