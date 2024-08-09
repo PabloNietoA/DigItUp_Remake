@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Minerals : MonoBehaviour
+public class MineralsManager : MonoBehaviour
 {
     // public static Minerals instance;
     [field: SerializeField] GameObject[] minerals;

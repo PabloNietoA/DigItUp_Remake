@@ -13,6 +13,5 @@ public class Minable : MonoBehaviour
             notCollided = false;
             Destroy(gameObject);
         }
-
     }
 }
