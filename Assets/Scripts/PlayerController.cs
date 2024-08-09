@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using TMPro;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -26,6 +29,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float baseFuel;
     [SerializeField] private float currentFuel;
     [SerializeField] private float maxFuel;
+    [SerializeField] private float fuelPerSecConsumption; //Consumo de fuel por segundo
+    [SerializeField] Image fuelBarImage; //Barra del color fill del fuel en la UI
+    [SerializeField] Gradient fuelBarGradient; //Gradiente de colores en el que transiciona la barra de fuel
 
 
     [Header("Capacity")]
@@ -49,7 +55,8 @@ public class PlayerController : MonoBehaviour
         }
     }
     void Start(){
-        
+        maxFuel = baseFuel; //En el futuro maxFuel se verá influenciado por el nivel del fuel, de momento igual a baseFuel
+        currentFuel = maxFuel; //El fuel al inicio es igual al maxFuel
     }
 
     // Update is called once per frame
@@ -61,13 +68,25 @@ public class PlayerController : MonoBehaviour
         currentXSpeed = currentSpeed * Mathf.Sin(currentAngleInRadians);
         currentYSpeed = currentSpeed * Mathf.Cos(currentAngleInRadians);
 
+        //Rotar el player
         rotatePlayer();
+        //Updatear el fuel y la barra de fuel
+        UpdateFuel();
     }
+    //Funcion para rotar el player
     void rotatePlayer()
     {
         float h = Input.GetAxis("Horizontal");
         Quaternion quaternion = Quaternion.Euler(0, 0, h * maxAngle);
         transform.rotation = Quaternion.Slerp(transform.rotation, quaternion, Time.deltaTime * turnSpeed);
+    }
+
+    //Funcion para updatear el estado del fuel y la barra de fuel en la UI
+    void UpdateFuel()
+    {
+        currentFuel -= fuelPerSecConsumption * Time.deltaTime;
+        fuelBarImage.fillAmount = currentFuel / maxFuel;
+        fuelBarImage.color = fuelBarGradient.Evaluate(fuelBarImage.fillAmount);
     }
     
     //Getters y setters (Properties)
