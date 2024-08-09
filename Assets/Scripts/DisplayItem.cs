@@ -54,10 +54,10 @@ public class DisplayItem : MonoBehaviour
     public void BuyItem()
     {
         // Comprobar si el jugador tiene suficiente oro
-        if (storeManager.Gold >= currentCost)
+        if (storeManager.Money >= currentCost)
         {
             // Restar el oro
-            storeManager.Gold -= currentCost;
+            storeManager.Money -= currentCost;
             // Incrementar el nivel del objeto
             itemLevels[item.id]++;
             // Actualizar el precio

@@ -9,8 +9,8 @@ public class StoreManager : MonoBehaviour
     [Header("Displayed Objects Reference")]
     [SerializeField] private DisplayItem[] displayItems; // Array de objetos que se pueden comprar
 
-    [Header("Gold")]
-    [SerializeField] private int gold; // Oro del jugador
+    [Header("Money")]
+    [SerializeField] private int money; // Dinero del jugador
 
     [Header("Selected Item")]
     [SerializeField] private int selectedIndex; // Indice del objeto seleccionado
@@ -19,7 +19,7 @@ public class StoreManager : MonoBehaviour
     [SerializeField] private int[] itemLevels; // Niveles del objeto
 
     [Header("Visual Components")]
-    [SerializeField] private TextMeshProUGUI goldText; // Texto que muestra el oro del jugador
+    [SerializeField] private TextMeshProUGUI moneyText; // Texto que muestra el dinero del jugador
 
     // Start is called before the first frame update
     void Awake() //Awake para que se ejecute la inicializacion antes del start de DisplayItem
@@ -37,8 +37,8 @@ public class StoreManager : MonoBehaviour
     {
         //Seleccionar el primer objeto al inicio
         SelectItemByIndex(0);
-        //Asignar el oro al texto
-        goldText.text = gold.ToString() + "$";
+        //Asignar el dinero al texto
+        moneyText.text = money.ToString() + "$";
 
     }
     public void SelectItemByIndex(int index)
@@ -64,15 +64,15 @@ public class StoreManager : MonoBehaviour
     {
         //Comprar el objeto seleccionado
         displayItems[selectedIndex].BuyItem(); //Llama al metodo BuyItem de DisplayItem desde donde se hace toda la logica de compra
-        //Actualizar el texto del oro
-        goldText.text = gold.ToString() + "$";
+        //Actualizar el texto del dinero
+        moneyText.text = money.ToString() + "$";
 
     }
 
 
     // Getters and Setters (Properties)
     public int[] ItemLevels { get { return itemLevels; } set { itemLevels = value; } }
-    public int Gold { get { return gold; } set { gold = value; } }
+    public int Money { get { return money; } set { money = value; } }
 
     public int SelectedIndex { get { return selectedIndex; } set { selectedIndex = value; } }
 }
