@@ -239,7 +239,7 @@ GameObject:
   - component: {fileID: 148503015}
   m_Layer: 0
   m_Name: Drill
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -383,10 +383,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseSpeed: 0
-  currentSpeed: 6
+  currentSpeed: 20
   maxSpeed: 0
   maxAngle: 60
-  turnSpeed: 3
+  turnSpeed: 5
   baseFuel: 100
   currentFuel: 0
   maxFuel: 100
@@ -893,7 +893,7 @@ GameObject:
   - component: {fileID: 1543432413}
   m_Layer: 0
   m_Name: Base
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
