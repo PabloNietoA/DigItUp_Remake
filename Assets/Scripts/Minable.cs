@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Minable : MonoBehaviour
 {
-    [SerializeField] int value;
+    public int value;
 
     void OnTriggerEnter2D(Collider2D collider){
         if(collider.gameObject.tag == "Player"){

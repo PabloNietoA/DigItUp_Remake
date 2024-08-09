@@ -30,8 +30,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float currentFuel;
     [SerializeField] private float maxFuel;
     [SerializeField] private float fuelPerSecConsumption; //Consumo de fuel por segundo
-    [SerializeField] Image fuelBarImage; //Barra del color fill del fuel en la UI
-    [SerializeField] Gradient fuelBarGradient; //Gradiente de colores en el que transiciona la barra de fuel
+    [SerializeField] private Image fuelBarImage; //Barra del color fill del fuel en la UI
+    [SerializeField] private Gradient fuelBarGradient; //Gradiente de colores en el que transiciona la barra de fuel
 
 
     [Header("Capacity")]
