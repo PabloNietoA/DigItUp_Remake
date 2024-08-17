@@ -6,6 +6,8 @@ using TMPro;
 
 public class StoreManager : MonoBehaviour
 {
+    public static StoreManager instance;
+
     [Header("Displayed Objects Reference")]
     [SerializeField] private DisplayItem[] displayItems; // Array de objetos que se pueden comprar
 
@@ -24,6 +26,18 @@ public class StoreManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake() //Awake para que se ejecute la inicializacion antes del start de DisplayItem
     {
+        // Almacena el primer script creado, que se puede acceder estáticamente
+        // Así tenemos una sola variable estática de la que consultamos variables
+        if (instance != null && instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            instance = this;
+        }
+
+
         // Inicializar los niveles de los objetos
         //displayItems = FindObjectsOfType<DisplayItem>(); /Funciona pero no aparecen en el orden correcto
         itemLevels = new int[displayItems.Length];

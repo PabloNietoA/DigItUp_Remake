@@ -6,8 +6,13 @@ using TMPro;
 public class Manager : MonoBehaviour
 {
     public static Manager instance;
-    public TextMeshProUGUI txtDeepness;
-    public TextMeshProUGUI txtMoney;
+
+    [Header("UI")]
+    [SerializeField] private TextMeshProUGUI txtDeepness;
+    [SerializeField] private TextMeshProUGUI txtMoney;
+
+    [Header("Levels")]
+    [SerializeField] private int[] itemLevels; // Niveles de cada item. Por ejemplo itemLevels[0] es el nivel del motor idk
 
     private float deepness;
     private int money;
@@ -40,4 +45,5 @@ public class Manager : MonoBehaviour
     }
 
     public float Deepness {get { return deepness; } set { deepness = value; } }
+    public int[] ItemLevels {get { return itemLevels; } set { itemLevels = value; } }
 }

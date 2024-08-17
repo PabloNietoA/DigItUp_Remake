@@ -8,7 +8,7 @@ public class DisplayItem : MonoBehaviour
 {
     [Header("Buyable Object Reference")]
     [SerializeField] private BuyableObject item; // Scriptable object que contiene los atributos del objeto que se puede comprar
-    
+
 
     [Header("Level")]
     [SerializeField] private static int[] itemLevels; // Niveles del objeto
@@ -20,8 +20,6 @@ public class DisplayItem : MonoBehaviour
     [SerializeField] private TextMeshProUGUI levelText; // Texto que muestra el nivel actual del objeto
     [SerializeField] private GameObject selectedSprite; // Sprite que se activa cuando el objeto está seleccionado
 
-    [Header("Store Manager Reference")]
-    [SerializeField] private StoreManager storeManager; // Referencia al StoreManager
 
     private int currentCost; // Coste del objeto
 
@@ -29,14 +27,14 @@ public class DisplayItem : MonoBehaviour
     void Start()
     {
         //Autoasignar el store manager
-        if(storeManager == null)
+        if (StoreManager.instance == null)
         {
-            storeManager = FindObjectOfType<StoreManager>();
+            StoreManager.instance = FindObjectOfType<StoreManager>();
         }
 
         // Obtener los niveles de los objetos
 
-        itemLevels = storeManager.ItemLevels;
+        itemLevels = StoreManager.instance.ItemLevels;
 
         // Calcular el precio del objeto
 
@@ -46,18 +44,18 @@ public class DisplayItem : MonoBehaviour
 
         nameText.text = item.name;
         itemImage.sprite = item.sprite;
-        priceText.text = currentCost.ToString()+"$";
-        levelText.text = "Lv."+itemLevels[item.id].ToString();
+        priceText.text = currentCost.ToString() + "$";
+        levelText.text = "Lv." + itemLevels[item.id].ToString();
     }
 
     //Metodo para comprar este objeto
     public void BuyItem()
     {
         // Comprobar si el jugador tiene suficiente oro
-        if (storeManager.Money >= currentCost)
+        if (StoreManager.instance.Money >= currentCost)
         {
             // Restar el oro
-            storeManager.Money -= currentCost;
+            StoreManager.instance.Money -= currentCost;
             // Incrementar el nivel del objeto
             itemLevels[item.id]++;
             // Actualizar el precio
@@ -67,7 +65,7 @@ public class DisplayItem : MonoBehaviour
             // Actualizar el texto del nivel
             levelText.text = "Lv." + itemLevels[item.id].ToString();
             // Actualizar el nivel del objeto en el store manager
-            storeManager.ItemLevels[item.id] = itemLevels[item.id]; 
+            StoreManager.instance.ItemLevels[item.id] = itemLevels[item.id];
         }
     }
 
@@ -77,8 +75,9 @@ public class DisplayItem : MonoBehaviour
 
 
 
-    public void SelectItem() {         
-        storeManager.SelectItemByIndex(item.id);
+    public void SelectItem()
+    {
+        StoreManager.instance.SelectItemByIndex(item.id);
     }
 
 

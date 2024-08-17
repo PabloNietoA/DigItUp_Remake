@@ -17,12 +17,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float maxSpeed;
     private float currentXSpeed;
     private float currentYSpeed;
-    private float currentAngleInRadians;
 
 
     [Header("Rotation")]
+    [SerializeField] private float baseAngle;
     [SerializeField] private float maxAngle;
-    [SerializeField] private float turnSpeed;
+    private float currentAngleInRadians;
+
+    [SerializeField] private float maxTurnSpeed;
+    [SerializeField] private float currentTurnSpeed;
 
     [Header("Drill")]
     [SerializeField] private EdgeCollider2D drillCollider;
@@ -44,7 +47,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float maxCapacity;
     [SerializeField] private float currentLoad;
 
-
+    private float multiplier = 0.2f; //TEMPORAL, se cambiará en el futuro
 
 
     private void Awake()
@@ -61,8 +64,21 @@ public class PlayerController : MonoBehaviour
         }
     }
     void Start(){
-        maxFuel = baseFuel; //En el futuro maxFuel se verá influenciado por el nivel del fuel, de momento igual a baseFuel
+        //Las id de ItemLevels[id] no son las finales, se cambiarán en el futuro además del factor de multiplicacion
+        //Speed
+        maxSpeed = baseSpeed * Manager.instance.ItemLevels[0]* multiplier; //ItemLevels[0] es el nivel del motor, a cambiar en el futuro por la id del motor
+        currentSpeed = maxSpeed; //La velocidad al inicio es igual a la maxSpeed
+        //Fuel
+        maxFuel = baseFuel * Manager.instance.ItemLevels[1] * multiplier;
         currentFuel = maxFuel; //El fuel al inicio es igual al maxFuel
+        //Angle
+        maxAngle = baseAngle * Manager.instance.ItemLevels[2] * multiplier; 
+        currentAngleInRadians = maxAngle;
+        //Turn Speed
+        maxTurnSpeed = baseSpeed * Manager.instance.ItemLevels[3] * multiplier;
+        currentTurnSpeed = maxTurnSpeed;
+
+
     }
 
     // Update is called once per frame
@@ -84,7 +100,7 @@ public class PlayerController : MonoBehaviour
     {
         float h = Input.GetAxis("Horizontal");
         Quaternion quaternion = Quaternion.Euler(0, 0, h * maxAngle);
-        transform.rotation = Quaternion.Slerp(transform.rotation, quaternion, Time.deltaTime * turnSpeed);
+        transform.rotation = Quaternion.Slerp(transform.rotation, quaternion, Time.deltaTime * currentTurnSpeed);
     }
 
     //Funcion para updatear el estado del fuel y la barra de fuel en la UI
