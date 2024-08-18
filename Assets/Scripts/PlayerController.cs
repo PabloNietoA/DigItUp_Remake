@@ -82,6 +82,9 @@ public class PlayerController : MonoBehaviour
         //Turn Speed
         maxTurnSpeed = baseTurnSpeed * (1 + Manager.instance.ItemLevels[3] * multiplier); //ItemLevels[3] es el nivel de la velocidad de giro, a cambiar en el futuro por la id de la velocidad de giro
         currentTurnSpeed = maxTurnSpeed;
+        //Life
+        maxLife = baseLife * (1 + Manager.instance.ItemLevels[4] * multiplier); //ItemLevels[4] es el nivel de la vida, a cambiar en el futuro por la id de la vida
+        currentLife = maxLife; //La vida al inicio es igual a la maxLife
     }
 
     // Update is called once per frame
@@ -97,6 +100,8 @@ public class PlayerController : MonoBehaviour
         rotatePlayer();
         //Updatear el fuel y la barra de fuel
         UpdateFuel();
+        //Updatear la vida y la barra de vida
+        UpdateLife();
     }
     //Funcion para rotar el player
     void rotatePlayer()
@@ -112,6 +117,13 @@ public class PlayerController : MonoBehaviour
         currentFuel -= fuelPerSecConsumption * Time.deltaTime;
         fuelBarImage.fillAmount = currentFuel / maxFuel;
         fuelBarImage.color = fuelBarGradient.Evaluate(fuelBarImage.fillAmount);
+    }
+
+    //Funcion para updatear el estado de la vida y la barra de vida en la UI
+    void UpdateLife()
+    {
+        lifeBarImage.fillAmount = currentLife / maxLife;
+        lifeBarImage.color = lifeBarGradient.Evaluate(lifeBarImage.fillAmount);
     }
 
     //Funcion para detectar colisiones con objetos minables
@@ -148,7 +160,7 @@ public class PlayerController : MonoBehaviour
     }
 
     //Metodo para restar vida
-    public void RemoveLife(float life)
+    public void TakeDamage(float life)
     {
         currentLife -= life;
         if (currentLife <= 0)
