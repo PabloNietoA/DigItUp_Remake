@@ -24,13 +24,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float maxAngle;
     private float currentAngleInRadians;
 
+    [SerializeField] private float baseTurnSpeed; //Velocidad de giro base
     [SerializeField] private float maxTurnSpeed;
     [SerializeField] private float currentTurnSpeed;
-
-    [Header("Drill")]
-    [SerializeField] private EdgeCollider2D drillCollider;
-
-
 
     [Header("Fuel")]
     [SerializeField] private float baseFuel;
@@ -47,7 +43,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float maxCapacity;
     [SerializeField] private float currentLoad;
 
-    private float multiplier = 0.2f; //TEMPORAL, se cambiará en el futuro
+    
+    private float multiplier = 0.1f; //TEMPORAL, se cambiará en el futuro
 
 
     private void Awake()
@@ -63,22 +60,21 @@ public class PlayerController : MonoBehaviour
             instance = this;
         }
     }
-    void Start(){
+    void Start()
+    {
         //Las id de ItemLevels[id] no son las finales, se cambiarán en el futuro además del factor de multiplicacion
         //Speed
-        maxSpeed = baseSpeed * Manager.instance.ItemLevels[0]* multiplier; //ItemLevels[0] es el nivel del motor, a cambiar en el futuro por la id del motor
+        maxSpeed = baseSpeed * (1 + Manager.instance.ItemLevels[0] * multiplier); //ItemLevels[0] es el nivel del motor, a cambiar en el futuro por la id del motor
         currentSpeed = maxSpeed; //La velocidad al inicio es igual a la maxSpeed
         //Fuel
-        maxFuel = baseFuel * Manager.instance.ItemLevels[1] * multiplier;
+        maxFuel = baseFuel * (1 + Manager.instance.ItemLevels[1] * multiplier); //ItemLevels[1] es el nivel del combustible, a cambiar en el futuro por la id del combustible
         currentFuel = maxFuel; //El fuel al inicio es igual al maxFuel
         //Angle
-        maxAngle = baseAngle * Manager.instance.ItemLevels[2] * multiplier; 
+        maxAngle = baseAngle * (1 + Manager.instance.ItemLevels[2] * multiplier); //ItemLevels[2] es el nivel del ángulo, a cambiar en el futuro por la id del ángulo
         currentAngleInRadians = maxAngle;
         //Turn Speed
-        maxTurnSpeed = baseSpeed * Manager.instance.ItemLevels[3] * multiplier;
+        maxTurnSpeed = baseTurnSpeed * (1 + Manager.instance.ItemLevels[3] * multiplier); //ItemLevels[3] es el nivel de la velocidad de giro, a cambiar en el futuro por la id de la velocidad de giro
         currentTurnSpeed = maxTurnSpeed;
-
-
     }
 
     // Update is called once per frame

@@ -341,12 +341,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 605514800998f5948bb642cbbd4f06d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseSpeed: 0
+  baseSpeed: 5
   currentSpeed: 10
   maxSpeed: 0
-  maxAngle: 90
-  turnSpeed: 5
-  drillCollider: {fileID: 0}
+  baseAngle: 50
+  maxAngle: 0
+  baseTurnSpeed: 10
+  maxTurnSpeed: 0
+  currentTurnSpeed: 0
   baseFuel: 100
   currentFuel: 0
   maxFuel: 100
@@ -1028,6 +1030,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   txtDeepness: {fileID: 2090419683}
   txtMoney: {fileID: 820419655}
+  itemLevels: 03000000030000000300000003000000
 --- !u!4 &1629119166
 Transform:
   m_ObjectHideFlags: 0
