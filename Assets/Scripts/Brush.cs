@@ -33,6 +33,8 @@ public class Brush : MonoBehaviour
         }
     }
 
+    /*-------------------METODOS PUBLICOS-------------------*/
+
     //Getters and setters
     public float TimeBetweenInstances { get { return timeBetweenInstances; } set { timeBetweenInstances = value; } }
 

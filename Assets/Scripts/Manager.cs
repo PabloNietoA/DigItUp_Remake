@@ -17,6 +17,7 @@ public class Manager : MonoBehaviour
     private float deepness;
     private int money;
 
+    // Awake se ejecuta en compilación, Start en ejecución
     private void Awake()
     {
         // Almacena el primer script creado, que se puede acceder estáticamente
@@ -28,17 +29,17 @@ public class Manager : MonoBehaviour
         }
     }
     void Start(){
-        this.money = 0;
-        this.deepness = 0f;
+        money = 0;
+        deepness = 0f;
     }
 
     void Update(){
-
-        //La speed de movimiento de los sprites la coge del playerController
         deepness += Time.deltaTime * PlayerController.instance.CurrentYSpeed;
         txtDeepness.text = ((int) deepness).ToString() + "m";
         txtMoney.text = "$" + money.ToString();
     }
+
+    /*-------------------METODOS PUBLICOS-------------------*/
 
     public void AddMoney(int money){
         this.money += money;

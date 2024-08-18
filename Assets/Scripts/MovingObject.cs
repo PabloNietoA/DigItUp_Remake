@@ -5,11 +5,8 @@ using UnityEngine;
 public class MovingObject : MonoBehaviour
 {
     [SerializeField] private float destructionHeight;
-    private PlayerController playerController;
-
     private void Start()
     {
-        playerController = PlayerController.instance;
         StartCoroutine(Move());
     }
 
@@ -17,8 +14,8 @@ public class MovingObject : MonoBehaviour
     {
         while (transform.position.y < destructionHeight)
         {
-            transform.position += Vector3.up * playerController.CurrentYSpeed * Time.deltaTime;
-            transform.position += Vector3.left * playerController.CurrentXSpeed * Time.deltaTime;
+            transform.position += Vector3.up * PlayerController.instance.CurrentYSpeed * Time.deltaTime;
+            transform.position += Vector3.left * PlayerController.instance.CurrentXSpeed * Time.deltaTime;
             yield return null;
         }
 

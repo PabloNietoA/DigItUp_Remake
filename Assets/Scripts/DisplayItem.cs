@@ -48,6 +48,11 @@ public class DisplayItem : MonoBehaviour
         levelText.text = "Lv." + itemLevels[item.id].ToString();
     }
 
+    /*-------------------METODOS PUBLICOS-------------------*/
+
+
+    //Metodos para los botones
+
     //Metodo para comprar este objeto
     public void BuyItem()
     {
@@ -69,12 +74,7 @@ public class DisplayItem : MonoBehaviour
         }
     }
 
-
-    //Metodos para los botones
-
-
-
-
+    //Metodo para seleccionar este objeto
     public void SelectItem()
     {
         StoreManager.instance.SelectItemByIndex(item.id);

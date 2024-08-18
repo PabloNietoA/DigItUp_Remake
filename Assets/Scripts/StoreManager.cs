@@ -23,7 +23,6 @@ public class StoreManager : MonoBehaviour
     [Header("Visual Components")]
     [SerializeField] private TextMeshProUGUI moneyText; // Texto que muestra el dinero del jugador
 
-    // Start is called before the first frame update
     void Awake() //Awake para que se ejecute la inicializacion antes del start de DisplayItem
     {
         // Almacena el primer script creado, que se puede acceder estáticamente
@@ -47,7 +46,8 @@ public class StoreManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    // Start is called before the first frame update
+    void Start()
     {
         //Seleccionar el primer objeto al inicio
         SelectItemByIndex(0);
@@ -55,6 +55,9 @@ public class StoreManager : MonoBehaviour
         moneyText.text = money.ToString() + "$";
 
     }
+
+    /*-------------------METODOS PUBLICOS-------------------*/
+
     public void SelectItemByIndex(int index)
     {
         //Marcar id como seleccionado

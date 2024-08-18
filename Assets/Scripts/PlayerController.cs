@@ -18,12 +18,12 @@ public class PlayerController : MonoBehaviour
     private float currentXSpeed;
     private float currentYSpeed;
 
-
-    [Header("Rotation")]
+    [Header("Rotation Angle")]
     [SerializeField] private float baseAngle;
     [SerializeField] private float maxAngle;
     private float currentAngleInRadians;
 
+    [Header("Rotation Speed")]
     [SerializeField] private float baseTurnSpeed; //Velocidad de giro base
     [SerializeField] private float maxTurnSpeed;
     [SerializeField] private float currentTurnSpeed;
@@ -36,14 +36,21 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Image fuelBarImage; //Barra del color fill del fuel en la UI
     [SerializeField] private Gradient fuelBarGradient; //Gradiente de colores en el que transiciona la barra de fuel
 
+    [Header("Life")]
+    [SerializeField] private float baseLife;
+    [SerializeField] private float currentLife;
+    [SerializeField] private float maxLife;
+    [SerializeField] private Image lifeBarImage; //Barra del color fill de la vida en la UI
+    [SerializeField] private Gradient lifeBarGradient; //Gradiente de colores en el que transiciona la barra de vida
 
-    [Header("Capacity")]
-    [SerializeField] private int baseCapacity;
-    [SerializeField] private float currentCapacity;
-    [SerializeField] private float maxCapacity;
-    [SerializeField] private float currentLoad;
+    //Variables ya puestas pero nunca usadas de momento, hay que decidir si siquiera tenemos capacidad
+    //[Header("Capacity")]
+    //[SerializeField] private int baseCapacity;
+    //[SerializeField] private float currentCapacity;
+    //[SerializeField] private float maxCapacity;
+    //[SerializeField] private float currentLoad;
 
-    
+
     private float multiplier = 0.1f; //TEMPORAL, se cambiará en el futuro
 
 
@@ -115,6 +122,38 @@ public class PlayerController : MonoBehaviour
         if (minable != null)
         {
             minable.Mined();
+        }
+    }
+
+    /*-------------------METODOS PUBLICOS-------------------*/
+
+    //Metodo para añadir fuel
+    public void AddFuel(float fuel)
+    {
+        currentFuel += fuel;
+        if (currentFuel > maxFuel)
+        {
+            currentFuel = maxFuel;
+        }
+    }
+
+    //Metodo para añadir vida
+    public void AddLife(float life)
+    {
+        currentLife += life;
+        if (currentLife > maxLife)
+        {
+            currentLife = maxLife;
+        }
+    }
+
+    //Metodo para restar vida
+    public void RemoveLife(float life)
+    {
+        currentLife -= life;
+        if (currentLife <= 0)
+        {
+            //GAME OVER, todavia no se ha implementado
         }
     }
 
