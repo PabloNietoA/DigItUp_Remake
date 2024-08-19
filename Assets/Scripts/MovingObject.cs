@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MovingObject : MonoBehaviour
 {
-    [SerializeField] private static float destructionHeight = 13;
+    [SerializeField] private float destructionHeight = 13;
     private void Start()
     {
         StartCoroutine(Move());
