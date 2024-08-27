@@ -20,7 +20,7 @@ public class Brush : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         //Si el modo automatico esta puesto el tiempo de creacion de la brocha dependera de la velocidad a la que se vaya
         if (automaticTimeBetweenInstances) { timeBetweenInstances = 1 / (playerController.CurrentSpeed*automaticBrushDensity); }
