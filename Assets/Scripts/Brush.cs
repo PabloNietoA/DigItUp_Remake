@@ -43,6 +43,7 @@ public class Brush : MonoBehaviour
             if (yDifference > destructionHeight)
             {
                 Destroy(brushInstance);
+                break;
             }
 
             yield return null;

@@ -7,11 +7,17 @@ public class Manager : MonoBehaviour
 {
     public static Manager instance;
 
+    [Header("Level")]
+    [SerializeField] private float levelDeepness;
+    [SerializeField] private GameObject playerMarker;
+
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI txtDeepness;
     [SerializeField] private TextMeshProUGUI txtMoney;
+    [SerializeField] private Transform deepnessMarkerStartPos;
+    [SerializeField] private Transform deepnessMarkerEndPos;
 
-    [Header("Levels")]
+    [Header("Items Levels")]
     [SerializeField] private int[] itemLevels; // Niveles de cada item. Por ejemplo itemLevels[0] es el nivel del motor idk
 
     private int money;
@@ -29,12 +35,22 @@ public class Manager : MonoBehaviour
     }
     void Start(){
         money = 0;
+        playerMarker.transform.position = deepnessMarkerStartPos.position;
     }
 
     void Update(){
-        txtDeepness.text = ((int) -PlayerController.instance.Deepness).ToString() + "m";
-        txtMoney.text = "$" + money.ToString();
+        UpdateUI();
     }
+
+    void UpdateUI()
+    {
+        txtDeepness.text = ((int)-PlayerController.instance.Deepness).ToString() + "m";
+        txtMoney.text = "$" + money.ToString();
+        //Updatea el marcador de profundidad del player 
+        playerMarker.transform.position = Vector3.Lerp(deepnessMarkerStartPos.position, deepnessMarkerEndPos.position, -PlayerController.instance.Deepness / levelDeepness);
+    }
+
+
 
     /*-------------------METODOS PUBLICOS-------------------*/
 
