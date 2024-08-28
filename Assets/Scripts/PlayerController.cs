@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance;
+    private float deepness;
     //VARIABLES
     [Header("Speed")]
     [SerializeField] private float baseSpeed;
@@ -21,7 +22,6 @@ public class PlayerController : MonoBehaviour
     [Header("Rotation Angle")]
     [SerializeField] private float baseAngle;
     [SerializeField] private float maxAngle;
-    private float currentAngleInRadians;
 
     [Header("Rotation Speed")]
     [SerializeField] private float baseTurnSpeed; //Velocidad de giro base
@@ -78,7 +78,6 @@ public class PlayerController : MonoBehaviour
         currentFuel = maxFuel; //El fuel al inicio es igual al maxFuel
         //Angle
         maxAngle = baseAngle * (1 + Manager.instance.ItemLevels[2] * multiplier); //ItemLevels[2] es el nivel del ángulo, a cambiar en el futuro por la id del ángulo
-        currentAngleInRadians = maxAngle;
         //Turn Speed
         maxTurnSpeed = baseTurnSpeed * (1 + Manager.instance.ItemLevels[3] * multiplier); //ItemLevels[3] es el nivel de la velocidad de giro, a cambiar en el futuro por la id de la velocidad de giro
         currentTurnSpeed = maxTurnSpeed;
@@ -90,25 +89,34 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Calcular angulo actual en radianes
-        currentAngleInRadians = transform.eulerAngles.z * Mathf.Deg2Rad;
-        //Calcular la descomposicion de la velocidad en x e y
-        currentXSpeed = currentSpeed * Mathf.Sin(currentAngleInRadians);
-        currentYSpeed = currentSpeed * Mathf.Cos(currentAngleInRadians);
+        //Aumentar la profundidad
+        deepness = transform.position.y;
+
+        //YA NO NECESARIO
+        ////Calcular angulo actual en radianes
+        //currentAngleInRadians = transform.eulerAngles.z * Mathf.Deg2Rad;
+        ////Calcular la descomposicion de la velocidad en x e y
+        //currentXSpeed = currentSpeed * Mathf.Sin(currentAngleInRadians);
+        //currentYSpeed = currentSpeed * Mathf.Cos(currentAngleInRadians);
+
 
         //Rotar el player
-        rotatePlayer();
+        MovePlayer();
         //Updatear el fuel y la barra de fuel
         UpdateFuel();
         //Updatear la vida y la barra de vida
         UpdateLife();
     }
     //Funcion para rotar el player
-    void rotatePlayer()
+    void MovePlayer()
     {
+        //Rotar el player
         float h = Input.GetAxis("Horizontal");
         Quaternion quaternion = Quaternion.Euler(0, 0, h * maxAngle);
         transform.rotation = Quaternion.Slerp(transform.rotation, quaternion, Time.deltaTime * currentTurnSpeed);
+
+        //Mover el player
+        transform.Translate(Vector3.down * currentSpeed * Time.deltaTime);
     }
 
     //Funcion para updatear el estado del fuel y la barra de fuel en la UI
@@ -170,8 +178,6 @@ public class PlayerController : MonoBehaviour
     }
 
     //Getters y setters (Properties)
+    public float Deepness { get { return deepness; } set { deepness = value; } }
     public float CurrentSpeed { get { return currentSpeed; } set { currentSpeed = value; } }
-    public float CurrentXSpeed { get { return currentXSpeed; } set { currentXSpeed = value; } }
-    public float CurrentYSpeed { get { return currentYSpeed; } set { currentYSpeed = value; } }
-
 }

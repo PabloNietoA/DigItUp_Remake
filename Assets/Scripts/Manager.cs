@@ -14,7 +14,6 @@ public class Manager : MonoBehaviour
     [Header("Levels")]
     [SerializeField] private int[] itemLevels; // Niveles de cada item. Por ejemplo itemLevels[0] es el nivel del motor idk
 
-    private float deepness;
     private int money;
 
     // Awake se ejecuta en compilación, Start en ejecución
@@ -30,12 +29,10 @@ public class Manager : MonoBehaviour
     }
     void Start(){
         money = 0;
-        deepness = 0f;
     }
 
     void Update(){
-        deepness += Time.deltaTime * PlayerController.instance.CurrentYSpeed;
-        txtDeepness.text = ((int) deepness).ToString() + "m";
+        txtDeepness.text = ((int) -PlayerController.instance.Deepness).ToString() + "m";
         txtMoney.text = "$" + money.ToString();
     }
 
@@ -45,6 +42,5 @@ public class Manager : MonoBehaviour
         this.money += money;
     }
 
-    public float Deepness {get { return deepness; } set { deepness = value; } }
     public int[] ItemLevels {get { return itemLevels; } set { itemLevels = value; } }
 }

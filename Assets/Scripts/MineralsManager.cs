@@ -48,10 +48,10 @@ public class MineralsManager : MonoBehaviour
     IEnumerator GenerationLoop(){
         while (true)
         {
-            AdjustProbs(Manager.instance.Deepness);
+            AdjustProbs(PlayerController.instance.Deepness);
             GenerateOre(WhichOre());
 
-            float waitTime = Math.Max(maxWait - (Manager.instance.Deepness / layerDepth * timePerLayerDecrease), minWait);
+            float waitTime = Math.Max(maxWait - (PlayerController.instance.Deepness / layerDepth * timePerLayerDecrease), minWait);
             yield return new WaitForSeconds(waitTime);
         }
     }
