@@ -16,8 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float baseSpeed;
     [SerializeField] private float currentSpeed;
     [SerializeField] private float maxSpeed;
-    private float currentXSpeed;
-    private float currentYSpeed;
+    
 
     [Header("Rotation Angle")]
     [SerializeField] private float baseAngle;
