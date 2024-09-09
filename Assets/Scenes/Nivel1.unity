@@ -517,8 +517,8 @@ MonoBehaviour:
   baseSpeed: 5
   currentSpeed: 10
   maxSpeed: 0
-  baseAngle: 90
-  maxAngle: 45
+  baseAngle: 45
+  maxAngle: 87.3
   baseTurnSpeed: 1
   maxTurnSpeed: 0
   currentTurnSpeed: 0
@@ -2037,17 +2037,18 @@ MonoBehaviour:
   - {fileID: 1254457345779071266, guid: 35d90609b5704e7419acd5ced2280ce2, type: 3}
   - {fileID: 1254457345779071266, guid: 35d90609b5704e7419acd5ced2280ce2, type: 3}
   - {fileID: 1254457345779071266, guid: 35d90609b5704e7419acd5ced2280ce2, type: 3}
+  player: {fileID: 267041904}
   mineralProbs:
   - 0.6
   - 0.3
   - 0.1
   - 0
   layerDepth: 150
-  maxWait: 10
-  minWait: 2
+  maxWait: 2
+  minWait: 0.2
   spreadX: 20
   spreadY: 5
-  timePerLayerDecrease: 2
+  timePerLayerDecrease: 0.4
 --- !u!114 &1629119168
 MonoBehaviour:
   m_ObjectHideFlags: 0
