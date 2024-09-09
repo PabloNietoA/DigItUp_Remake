@@ -518,7 +518,7 @@ MonoBehaviour:
   currentSpeed: 10
   maxSpeed: 0
   baseAngle: 90
-  maxAngle: 0
+  maxAngle: 45
   baseTurnSpeed: 1
   maxTurnSpeed: 0
   currentTurnSpeed: 0
@@ -2027,7 +2027,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1629119164}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 092a1481948aab74490f03059a831a80, type: 3}
   m_Name: 
